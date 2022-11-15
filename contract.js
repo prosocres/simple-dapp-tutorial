@@ -42,16 +42,46 @@ const initialize = () => {
     const { ethereum } = window;
     return Boolean(ethereum && ethereum.isMetaMask);
   };
-  
-  //------Inserted Code------\\
+
+  //We create a new MetaMask onboarding object to use in our app
+  const onboarding = new MetaMaskOnboarding({ forwarderOrigin });
+
+  //This will start the onboarding proccess
+  const onClickInstall = () => {
+    onboardButton.innerText = 'Onboarding in progress';
+    onboardButton.disabled = true;
+    //On this object we have startOnboarding which will start the onboarding process for our end user
+    onboarding.startOnboarding();
+  };
+
+  const onClickConnect = async () => {
+    try {
+      // Will open the MetaMask UI
+      // You should disable this button while the request is pending!
+      await ethereum.request({ method: 'eth_requestAccounts' });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const MetaMaskClientCheck = () => {
     if(!isMetaMaskInstalled) {
       onboardButton.innerText = 'Click here to install MetaMask!';
+      //When the button is clicked we call this function
+      onboardButton.onclick = onClickInstall;
+    //The button is now disabled
+      onboardButton.disabled = true;
     } else {
+      //If MetaMask is installed we ask the user to connect to their wallet
       onboardButton.innerText = 'Connect';
+      //When the button is clicked we call this function to connect the users MetaMask Wallet
+      onboardButton.onclick = onClickConnect;
+      //The button is now enabled
+      onboardButton.disabled = false;
     }
   };
   MetaMaskClientCheck();
+  //------/Inserted Code------\\
 };
 
 window.addEventListener('DOMContentLoaded', initialize)
