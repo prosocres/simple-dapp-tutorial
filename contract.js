@@ -35,6 +35,8 @@ const forwarderOrigin = 'http://localhost:9010'
 const initialize = () => {
   //Basic Actions Section
   const onboardButton = document.getElementById('connectButton');
+  const getAccountsButton = document.getElementById('getAccounts');
+  const getAccountsResult = document.getElementById('getAccountsResult');
 
   //Created check function to see if the MetaMask extension is installed
   const isMetaMaskInstalled = () = {
@@ -53,7 +55,7 @@ const initialize = () => {
     //On this object we have startOnboarding which will start the onboarding process for our end user
     onboarding.startOnboarding();
   };
-
+ 
   const onClickConnect = async () => {
     try {
       // Will open the MetaMask UI
@@ -69,7 +71,7 @@ const initialize = () => {
       onboardButton.innerText = 'Click here to install MetaMask!';
       //When the button is clicked we call this function
       onboardButton.onclick = onClickInstall;
-    //The button is now disabled
+      //The button is now disabled
       onboardButton.disabled = true;
     } else {
       //If MetaMask is installed we ask the user to connect to their wallet
@@ -81,7 +83,13 @@ const initialize = () => {
     }
   };
   MetaMaskClientCheck();
-  //------/Inserted Code------\\
+  
+  getAccountsButton.addEventListener('click', async () => {
+    //we use eth_accounts because it returns a list of addresses owned by us.
+    const accounts = await ethereum.request({ method: 'eth_accounts' });
+    //We take the first address in the array of addresses and display it
+    getAccountsResult.innerHTML = accounts[0] || 'Not able to get accounts';
+  });
 };
 
 window.addEventListener('DOMContentLoaded', initialize)
