@@ -34,12 +34,13 @@ const forwarderOrigin = 'http://localhost:9010'
 
 const initialize = () => {
   //Basic Actions Section
+  //11.26.22 - Having trouble getting the onboardButton to render "Connect" or "Click here to install Metamask"
   const onboardButton = document.getElementById('connectButton');
   const getAccountsButton = document.getElementById('getAccounts');
   const getAccountsResult = document.getElementById('getAccountsResult');
 
   //Created check function to see if the MetaMask extension is installed
-  const isMetaMaskInstalled = () = {
+  const isMetaMaskInstalled = () => {
     //Have to check the ethereum binding on the window object to see if it's installed
     const { ethereum } = window;
     return Boolean(ethereum && ethereum.isMetaMask);
@@ -67,7 +68,7 @@ const initialize = () => {
   };
 
   const MetaMaskClientCheck = () => {
-    if(!isMetaMaskInstalled) {
+    if(!isMetaMaskInstalled()) {
       onboardButton.innerText = 'Click here to install MetaMask!';
       //When the button is clicked we call this function
       onboardButton.onclick = onClickInstall;
