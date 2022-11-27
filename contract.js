@@ -30,7 +30,7 @@ The `piggybankContract` is compiled from:
   }
 */
 
-const forwarderOrigin = 'http://localhost:9010'
+const forwarderOrigin = 'http://localhost:9010';
 
 const initialize = () => {
   //Basic Actions Section
@@ -68,7 +68,7 @@ const initialize = () => {
   };
 
   const MetaMaskClientCheck = () => {
-    if(!isMetaMaskInstalled()) {
+    if (!isMetaMaskInstalled()) {
       onboardButton.innerText = 'Click here to install MetaMask!';
       //When the button is clicked we call this function
       onboardButton.onclick = onClickInstall;
@@ -93,4 +93,4 @@ const initialize = () => {
   });
 };
 
-window.addEventListener('DOMContentLoaded', initialize)
+window.addEventListener('DOMContentLoaded', initialize);
